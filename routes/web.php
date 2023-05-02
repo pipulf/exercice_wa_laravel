@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['minDate' => (new DateTime('-150 year'))->format('Y-m-d'), 'maxDate' => (new DateTime())->format('Y-m-d')]);
 });

@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Personne extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'firstname',
+        'lastname',
+        'birthdate',
+    ];
+
+    protected $casts = [
+        'birthdate' => 'date',
+    ];
+
 }

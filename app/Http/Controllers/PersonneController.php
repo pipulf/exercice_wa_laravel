@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Personne;
+use DateTime;
 use Illuminate\Http\Request;
 
 class PersonneController extends Controller
@@ -14,7 +15,19 @@ class PersonneController extends Controller
      */
     public function index()
     {
-        return 'hello';
+        $personnes = Personne::orderBy('lastname', 'asc')->get();
+
+        foreach ($personnes as $personne) {
+
+            $birthdate = new DateTime($personne->birthdate);
+            $now = new DateTime();
+
+            $age = $now->diff($birthdate)->y;
+
+            $personne['age'] = $age;
+        }
+
+        return view('index', ['personnes' => $personnes]);
     }
 
     /**
@@ -35,7 +48,13 @@ class PersonneController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Personne::create([
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'birthdate' => new DateTime($request->input('birthdate'))
+        ]);
+
+        return back();
     }
 
     /**
